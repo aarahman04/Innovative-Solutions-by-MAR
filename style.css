@@ -230,21 +230,18 @@ img {
 }
 
 /* Navigation */
-
 .navbar {
-    position: fixed;                 /* 🔹 always stays on screen */
+    position: fixed; /* always on top */
     top: 0;
     left: 0;
-    width: 100%;                     /* 🔹 span full width */
-    background-color: rgba(10, 10, 10, 0.8);
+    width: 100%;
+    background-color: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-
-
 
 .nav-container {
     display: flex;
@@ -298,7 +295,6 @@ img {
     width: 0;
     height: 2px;
     background: linear-gradient(to right, var(--color-primary-blue), var(--color-primary-red));
-    /* Red accent gradient */
     transition: width 0.3s ease;
 }
 
@@ -318,7 +314,6 @@ img {
 
 .nav-cta:hover {
     border-color: var(--color-primary-red);
-    /* Red border on hover */
     background: rgba(239, 68, 68, 0.1);
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
 }
@@ -335,13 +330,6 @@ img {
     font-size: 1.5rem;
     cursor: pointer;
 }
-
-/* Hide navbar when scrolling down */
-.navbar.navbar--hidden {
-    transform: translateY(-100%);
-}
-
-
 /* Hero Section */
 .hero {
     padding: 8rem 0 6rem;
@@ -1276,5 +1264,62 @@ img {
 .founder-info .small-text {
     font-size: 0.875rem;
     color: var(--color-primary-blue);
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+        position: relative;
+        z-index: 1100; /* above the slide-in panel */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 75%;
+        max-width: 320px;
+        background: rgba(0, 0, 0, 0.96);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 5rem 1.5rem 2rem;
+        gap: 1.5rem;
+        transform: translateX(100%);  /* hidden off-screen by default */
+        transition: transform 0.3s ease;
+        z-index: 1005;                /* under the toggle, over the page */
+    }
+
+    .nav-links.active {
+        transform: translateX(0);     /* slide in */
+    }
+
+    .nav-links .nav-cta {
+        width: 100%;
+        text-align: center;
+    }
+}
+Also: add top padding so content isn’t under the fixed navbar
+In the body rule you showed me earlier, add this one line:
+
+css
+Copy code
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    padding-top: 80px; /* <--- so your hero doesn't hide behind navbar */
+
+    /* Interesting Background: Subtle Mesh Gradient */
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(29, 78, 216, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(185, 28, 28, 0.08) 0%, transparent 50%),
+        linear-gradient(to bottom, #050505 0%, #0a0a0a 100%);
+    background-attachment: fixed;
 }
 
