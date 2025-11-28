@@ -1,20 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation Toggle
     const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks  = document.querySelector('.nav-links');
     const navLinksItems = document.querySelectorAll('.nav-links a');
 
-    navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = navToggle.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
+    // 🔹 NEW: navbar + scroll state
+    const navbar = document.querySelector('.navbar');
+    let lastScrollY = window.scrollY;
+
 
     // Close mobile menu when a link is clicked
     navLinksItems.forEach(link => {
@@ -49,24 +42,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    
+// Back to Top Button
+const backToTopBtn = document.getElementById('backToTop');
 
-    // Back to Top Button
-    const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+    } else {
+        backToTopBtn.classList.remove('visible');
+    }
+});
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
-    });
+    //  Back to Top Button but nav bar goes invisible as you scroll down and shows when you scroll up
+    // const backToTopBtn = document.getElementById('backToTop');
 
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
+    // window.addEventListener('scroll', () => {
+    //     const currentScroll = window.scrollY;
+
+         // 🔹 keep existing back-to-top behavior
+    //     if (currentScroll > 300) {
+    //         backToTopBtn.classList.add('visible');
+    //     } else {
+    //         backToTopBtn.classList.remove('visible');
+    //     }
+
+       // 🔹 Do NOT hide navbar while mobile menu is open
+    //     if (navLinks.classList.contains('active')) {
+    //         lastScrollY = currentScroll;
+    //         return;
+    //     }
+
+         // 🔹 Hide on scroll down, show on scroll up
+    //     if (currentScroll > lastScrollY && currentScroll > 80) {
+             // scrolling down
+    //         navbar.classList.add('navbar--hidden');
+    //     } else {
+            // scrolling up or near top
+    //         navbar.classList.remove('navbar--hidden');
+    //     }
+
+    //     lastScrollY = currentScroll;
+    // });
+
 
     // Contact Form Handling
     const contactForm = document.getElementById('contactForm');
