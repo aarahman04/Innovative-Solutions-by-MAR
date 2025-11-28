@@ -51,6 +51,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden; /* added to prevent horizontal scroll + swiping into menu */
 }
 
 body {
@@ -83,6 +84,7 @@ img {
     max-width: 100%;
     display: block;
 }
+
 
 /* Utility Classes */
 .container {
@@ -228,9 +230,12 @@ img {
 }
 
 /* Navigation */
+
 .navbar {
-    position: sticky;
+    position: fixed;                 /* 🔹 always stays on screen */
     top: 0;
+    left: 0;
+    width: 100%;                     /* 🔹 span full width */
     background-color: rgba(10, 10, 10, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -238,6 +243,8 @@ img {
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+
 
 .nav-container {
     display: flex;
@@ -328,6 +335,12 @@ img {
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+/* Hide navbar when scrolling down */
+.navbar.navbar--hidden {
+    transform: translateY(-100%);
+}
+
 
 /* Hero Section */
 .hero {
@@ -1209,6 +1222,44 @@ img {
     }
 }
 
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;          /* show hamburger on mobile */
+        position: relative;
+        z-index: 2100;           /* ABOVE the sliding menu so it can close it */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 75%;
+        max-width: 320px;
+        background: rgba(0, 0, 0, 0.96);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 5rem 1.5rem 2rem;   /* leave room for navbar at top */
+        gap: 1.5rem;
+        transform: translateX(100%); /* start completely off-screen */
+        transition: transform 0.3s ease;
+        z-index: 2000;               /* under the toggle, above the page */
+    }
+
+    .nav-links.active {
+        transform: translateX(0);    /* slide in when JS adds .active */
+    }
+
+    /* Optional: full-width CTA in mobile menu */
+    .nav-links .nav-cta {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 /* About Section */
 .about-grid {
     display: grid;
@@ -1226,3 +1277,4 @@ img {
     font-size: 0.875rem;
     color: var(--color-primary-blue);
 }
+
